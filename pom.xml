@@ -20,5 +20,11 @@
            <version>1.21.4-R0.1-SNAPSHOT</version>
            <scope>provided</scope>
     </dependency>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version> <!-- Latest stable JUnit 4 version -->
+        <scope>test</scope>
+    </dependency>
 </dependencies>
 </project>
