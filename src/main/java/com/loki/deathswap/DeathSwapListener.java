@@ -11,4 +11,10 @@ public class DeathSwapListener implements Listener {
         this.plugin = plugin;
     }
 
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        if (plugin.isGameRunning() && plugin.isPLayerInGame(event.getEntity())) {
+            plugin.endGame(event.getEntity().getName());
+        }
+    }
 }
