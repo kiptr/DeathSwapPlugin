@@ -15,10 +15,12 @@ import java.util.ArrayList;
 public class DeathSwapPlugin extends JavaPlugin {
     private boolean gameRunning = false;
     private List<Player> players = new ArrayList<>();
+    private DeathSwapCommand deathSwapCommand;
 
     @Override
     public void onEnable() {
         getLogger().info("DeathSwap Plugin Enabled!");
+        deathSwapCommand = new DeathSwapCommand(this);
         getServer().getPluginManager().registerEvents(new DeathSwapListener(this), this);
     }
 
@@ -29,6 +31,14 @@ public class DeathSwapPlugin extends JavaPlugin {
 
     public boolean isGameRunning() {
         return gameRunning;
+    }
+
+    public void setGameRunning(boolean gameRunning) {
+        this.gameRunning = gameRunning;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 
     public boolean isPLayerInGame(Player player) {
@@ -83,49 +93,6 @@ public class DeathSwapPlugin extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("deathswap")) {
-            if (args.length == 0) {
-                sender.sendMessage(ChatColor.RED + "Usage /deathswap join | /deathswap start");
-                return false;
-            }
-
-            if (args[0].equalsIgnoreCase("join")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-
-                    if (players.size() >= 2) {
-                        player.sendMessage(ChatColor.RED
-                                + "Sorry, the game is already full. Only 2 player allowed to do DeathSwap");
-                        return false;
-                    }
-
-                    players.add(player);
-                    player.sendMessage(ChatColor.GREEN + "You have joined the DeathSwap game!");
-
-                    if (players.size() == 2) {
-                        Bukkit.broadcastMessage(
-                                ChatColor.GOLD + "Two players have joined! To start the game, use /deathswap start");
-                    }
-                }
-                return true;
-            }
-
-            if (args[0].equalsIgnoreCase("start")) {
-                if (players.size() < 2) {
-                    sender.sendMessage(ChatColor.RED + "You need two players to start the game.");
-                    return false;
-                }
-
-                if (gameRunning) {
-                    sender.sendMessage(ChatColor.RED + "The game is already started.");
-                    return false;
-                }
-
-                gameRunning = true;
-                sender.sendMessage(ChatColor.GREEN + "The DeathSwap game has started!");
-                return true;
-            }
-        }
-        return false;
+        return deathSwapCommand.onCommand(sender, cmd, label, args);
     }
 }
