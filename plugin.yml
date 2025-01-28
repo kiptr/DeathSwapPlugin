@@ -1,0 +1,7 @@
+name: DeathSwap
+version: 1.0
+main: com.loki.deathswap.DeathSwapPlugin
+commands:
+  deathswap:
+    description: Join and start the DeathSwap minigame
+    usage: /deathswap <join/start>
